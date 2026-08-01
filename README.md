@@ -12,22 +12,33 @@
 ---
 
 ## Table of Contents
-
+1. [Abstract](#abstract)
+2. [Team Members](#team-members)
+3. [What We Promised](#what-we-promised)
+4. [Accomplishments](#accomplishments)
+5. [Project Demonstration](#project-demonstration)
+6. [Challenges](#challenges)
+7. [Future Development](#future-development)
+8. [Project Hardware](#hardware-and-cad)
+9. [Project Software](#computer-vision-and-software)
+10. [References](#references)
+11. [Acknowledgments](#acknowledgments)
+12. [Contacts](#contacts)
 ---
 
-## Abtract
+## Abstract
 An autonomous robot car that uses on-device vision to detect and track a pursuing person as it drives away to avoid being caught while attemping to navigate around obstacles in its path. Using dual 2D LiDAR in front and back for corner detection and obstacle avoidance with a rotating webcam for person tracking, the mousebot manuvers to keep the person in the camera frame while threading between other people, chairs, and under tables. All perception and decision-making run on-device on an Arduino UNO Q.
 
 ---
 
 ## Team Members
-Charlie Kushelevsky - Mathmatics-Computer Science
-Jaafar Sameer - ELectrical and Computer Engineering
-Ryan Chen - ELectrical and Computer Engineering
+- Ryan Chen - ELectrical and Computer Engineering
+- Charlie Kushelevsky - Mathmatics-Computer Science
+- Jaafar Sameer - ELectrical and Computer Engineering
 
 ---
 
-## What We have Promised
+## What We Promised
 ### Must Have
 - Person recognition and tracking of specific people to escape from
 - Estimation of proximity and bearing of person (direction of approach)
@@ -57,15 +68,17 @@ Ryan Chen - ELectrical and Computer Engineering
 
 ---
 
-## Challenges/Lessions Learned
+## Challenges
 - Insufficient ports for camera and 2 lidars, had to add USB hub
 - Arduino Uno Q USB C port only takes input power and data, could not output power through board
 - Connectivity issues through USB hub to Arduino Uno Q's C port, required "jumping" the system by connecting the hub's USB C to a phone to draw power and data, then replugging into Arduino Uno Q
 - Insufficient power for all sensors, required portable battery bank to power externals
-- Camera only mounts via single M6 screw, require multiple redesigns to mount onto servo 
+- Camera only mounts via single M6 screw, require multiple redesigns to mount onto servo
+- Had to reverse direction of car so camera can track pursuer chasing behind 
 - Space limitation of deck, overhang lidar over edge of plate, stacked battery box and Arduino vertically, raised servo mount for clerance of rotating camera
 - Power difference between motors - had to adjust throttle settigns for each side to synchronize power and movement
-- Lidar 
+- Lidars required masking the rear 180 deg to avoid detecting wires and equipment on the top plate, and wires had to be routed carefully from the usb hub in front of the lidar
+- Used Tailscale to facillitate more reliable connection to Arduino Uno Q on campus
 
 ---
 
@@ -109,7 +122,7 @@ Each unit's body, the central clutter, and the *other* LiDAR appear as fixed pha
 
 ---
 
-## Computer Vision/Software
+## Computer Vision and Software
 
 ## Architecture
 
@@ -348,9 +361,22 @@ python -m pytest tests/ -q
 54 unit tests over the pure logic (geometry, evasion policy, LiDAR sectorizing,
 identity gate, run analysis). No hardware, camera, or model file required, so
 they run on any laptop. See `tests/README.md`.
+
 ---
 
-## Acknowledgements 
+## References
+- [Lidar LD19 datasheet](https://www.ldrobot.com/images/2023/05/23/LDROBOT_LD19_Datasheet_EN_v2.6_Q1JXIRVq.pdf)
+- [Lidar CAD](https://grabcad.com/library/lidar-ld19-1)
+---
 
+## Acknowledgments  
+Special thank you to Professor Silberman and TA Jose Castillo for advice, insights, and part sourcing!
+
+---
+
+## Contacts
+- Ryan Chen -
+- Charlie Kushelevsky - 
+- Jaafar Sameer - 
 
 
