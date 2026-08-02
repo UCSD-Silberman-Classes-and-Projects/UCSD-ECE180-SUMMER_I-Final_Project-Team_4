@@ -196,48 +196,105 @@ repeat
 ```
 mouse-bot/
 ├── README.md
-├── sketch.yaml                 # arduino-app-cli build manifest
-├── .gitignore
+├── pytest.ini                   # limits collection to tests/ (scripts/track_test.py would
+│                                 #   otherwise match the *_test.py pattern)
+├── requirements.txt             # numpy, opencv-python, pyserial, pytest
+├── sketch.yaml                  # arduino-app-cli build manifest
 │
-├── sketch/
-│   └── sketch.ino              # STM32: motors, Bridge RPC
+├── sketch/                      # STM32 side (Zephyr)
+│   ├── sketch.ino               # motors + pan servo, exposed to the MPU over Bridge
+│   ├── motor_test/              # hardware bring-up sketch, not a pytest test
+│   │   └── motor_test.ino       # standalone check of motor wiring/direction
+│   ├── polarity_test/           # hardware bring-up sketch, not a pytest test
+│   │   └── polarity_test.ino    # standalone check of motor polarity
+│   └── src/                     # implementation used by sketch.ino
+│       ├── motors.cpp/.h        # motor control functions, called from the MPU
+│       └── servo_cam.cpp/.h     # pan servo (HS-225MG) control
 │
-├── app/                        # MPU (Python)
-│   ├── main.py                 # top-level loop
-│   ├── config.py               # all tunables in one place
-│   ├── perception/
-│   │   ├── camera.py           # USB webcam / ESP32-CAM stream capture
-│   │   ├── detector.py         # TFLite person detection
-│   │   ├── geometry.py         # bbox → bearing + proximity (pure)
-│   │   └── identity.py         # person re-ID: torso signatures, enrollment DB, voting matcher
-│   ├── sensing/
-│   │   ├── lidar.py            # LD19 read, mask, merge, sectorize
-│   │   └── ld19_driver.py      # thin wrapper over lds2d's LD19 driver
+├── app/                         # MPU (Python)
+│   ├── __init__.py              # package marker (empty)
+│   ├── main.py                  # top-level evasion loop (capture → detect → track → evade)
+│   ├── config.py                # all tunables in one place
+│   ├── simulate.py              # hardware-free 2D flee simulation (real pipeline, fake room)
+│   ├── telemetry.py             # JSON snapshot of control-loop state for laptop-side viewers
 │   ├── control/
-│   │   ├── evasion.py          # escape policy (pure)
-│   │   ├── bridge_client.py    # RPC to STM32 (motion, ultrasonic backstop)
-│   │   └── bt_console.py       # Bluetooth remote-control server, see below
+│   │   ├── __init__.py          # package marker (empty)
+│   │   ├── bridge_client.py     # RPC to STM32 (motion, servo)
+│   │   ├── bt_console.py        # Bluetooth command console (RFCOMM)
+│   │   ├── evasion.py           # escape policy (pure)
+│   │   └── scanner.py           # camera pan: sweep to search, then track
+│   ├── perception/
+│   │   ├── __init__.py          # package marker (empty)
+│   │   ├── camera.py            # USB webcam (V4L2) / ESP32-CAM MJPEG stream capture
+│   │   ├── detector.py          # TFLite person detection
+│   │   ├── geometry.py          # bbox → bearing + proximity (pure)
+│   │   └── identity.py          # person re-ID: torso HSV signatures, enrollment DB, voting matcher
+│   ├── sensing/
+│   │   ├── __init__.py          # package marker (empty)
+│   │   ├── ld19_driver.py       # self-contained LD19 serial protocol driver
+│   │   ├── ld19_driver.py.bak   # old lds2d-wrapper driver, superseded by ld19_driver.py above
+│   │   └── lidar.py             # dual LD19: mask → transform → merge → sectorize
 │   └── utils/
-│       └── logging.py          # structured run logs
+│       ├── __init__.py          # package marker (empty)
+│       └── logging.py           # structured per-frame CSV run logs
 │
-├── models/                     # TFLite model(s) live here (gitignored if large)
-├── data/
-│   └── identities/              # enrolled person re-ID signatures (one .npz per person)
-├── scripts/
-│   ├── benchmark_fps.py        # week-1 gate: detection FPS on the MPU
-│   ├── lidar_viz.py            # visualize/verify merged scan + masks
-│   ├── collect_frames.py       # save frames for debug/eval
-│   ├── bt_client.py            # Linux Bluetooth client for bt_console.py
-│   ├── test_camera.py          # verify a camera source (index or stream URL)
-│   ├── vision_preview.py       # annotate frames/live: boxes, identity, [LOCKED]
-│   ├── watch.py                # live MJPEG stream to a browser over WiFi
-│   ├── enroll.py               # enroll a pursuer's appearance signature
-│   ├── analyze_runs.py         # time-to-capture + run stats from logs
-│   ├── stub_smoketest.py       # control path with no hardware
-│   └── fetch_models.sh         # download the TFLite detection model
-└── docs/
-    └── architecture.md         # message schema, pin map, LiDAR offsets/masks
-```
+├── models/                      # TFLite model(s) live here (gitignored)
+│   ├── README.md                # tensor layout, model notes
+│   ├── coco_labels.txt          # COCO class names (debug only)
+│   ├── person_detect.tflite     # default: SSD MobileNet V2, COCO, uint8, 300x300
+│   └── person_detect_mobiledet.tflite  # alternative: SSDLite MobileDet, 320x320
+│
+├── scripts/                     # pytest doesn't collect these; run directly with python -m
+│   ├── analyze_runs.py          # time-to-capture + run stats from logs
+│   ├── benchmark_fps.py         # week-1 gate: detection FPS on the MPU
+│   ├── bt_client.py             # Linux Bluetooth (RFCOMM) client for bt_console.py
+│   ├── collect_frames.py        # save frames for debug/eval
+│   ├── enroll.py                # enroll a pursuer's appearance signature
+│   ├── fetch_models.sh          # download the TFLite detection model(s)
+│   ├── flee_sim.py              # run + plot the flee simulation (class-demo visual)
+│   ├── lidar_test.py            # LD19 bring-up: list, identify, watch, verify
+│   ├── lidar_viz.py             # verify masks, merged scan, and sector reduction
+│   ├── radar_view.py            # laptop-side LiDAR + pursuer + escape-path dashboard
+│   ├── servo_test.py            # bring up + verify pan servo direction
+│   ├── sign_check.py            # on-robot camera-lock/donut diagnostic
+│   ├── stub_smoketest.py        # offline smoke test of the control path, no hardware
+│   ├── test_camera.py           # verify a camera source (index or stream URL)
+│   ├── track_test.py            # sweep + track rehearsal, wheels disabled
+│   ├── vision_preview.py        # boxes, bearing, proximity, identity ([LOCKED] tag)
+│   └── watch.py                 # live MJPEG stream to a browser over WiFi
+│
+├── tests/                       # pytest unit tests, pure logic only
+│   ├── README.md                # what each test file covers
+│   ├── conftest.py              # shared test fixtures
+│   ├── test_evasion.py          # flee direction, speed scaling, corner override, PWM mapping
+│   ├── test_flee_integration.py # closed-loop flee test in a simulated 6x6 m room
+│   ├── test_geometry.py         # bbox → bearing/proximity
+│   ├── test_identity.py         # torso signatures, enrollment storage, pursuer selection
+│   ├── test_ld19.py             # LD19 protocol driver (synthetic bytes)
+│   ├── test_lidar.py            # arc math, masking, frame transform, sectorizing, corners
+│   ├── test_logging_and_analysis.py  # run logging + time-to-capture analysis
+│   ├── test_scanner.py          # sweep, lock on, hold through dropouts
+│   └── test_servo_geometry.py   # pixels → camera angle → chassis angle → steer
+│
+├── docs/
+│   ├── architecture.md          # processor split, message schema, pin map, LiDAR offsets/masks
+│   ├── identity_tuning.md       # tuning the identity gate (misidentifying strangers)
+│   └── servo_tracking.md        # pan servo search/track and how bearing is computed
+│
+├── assets/                      # README images
+│   ├── Mousebotfront.png
+│   ├── V3.png
+│   ├── camdetection.png
+│   ├── finalmousebot.png
+│   ├── fronton.png
+│   ├── lidarscreen.png
+│   ├── mousebotV2.png
+│   └── protomousebot.png
+│
+└── proposal/                    # original project proposal
+    ├── slides.pdf
+    ├── slides.tex
+    └── UCSDLogo_JSOE_BlueGold_0_0.png
 
 ---
 
