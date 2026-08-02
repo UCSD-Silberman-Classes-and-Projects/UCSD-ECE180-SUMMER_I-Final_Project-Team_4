@@ -185,7 +185,7 @@ A ultrasonic sensor that came with the kit and was part of the ESP32 camera moun
 
 ---
 
-## The main loop (MPU)
+## The Main Loop (MPU)
 
 ```
 capture frame
@@ -201,7 +201,7 @@ repeat
 
 ---
 
-## Repo layout
+## Repo Layout
 
 ```
 mouse-bot/
@@ -309,7 +309,7 @@ mouse-bot/
 
 ---
 
-## Build order (de-risks the unknowns first)
+## Build Order (de-risks the unknowns first)
 
 1. **Bridge with a stub** — run the MPU loop end-to-end printing fake motion commands, no hardware.
 2. **Detector on recorded video** — benchmark FPS off-robot. **Week-1 gate: must clear ~10 FPS.**
@@ -320,7 +320,7 @@ mouse-bot/
 
 ---
 
-## Setup notes
+## Setup Notes
 
 - Install OpenCV via **apt** (`sudo apt install python3-opencv`), *not* pip, on the board's ARM/Debian.
 - `Arduino_RouterBridge` (STM32 side) and `arduino.app_utils.Bridge` (MPU side) are both used as
@@ -342,7 +342,7 @@ LiDAR-based corner detection + avoidance · time-to-capture metric.
 re-ID · live FPV / detection overlay stream.
 
 
-## Getting the detection model
+## Getting the Detection Model
 
 The model binaries are gitignored; fetch them once per machine:
 
@@ -356,7 +356,7 @@ unmodified: uint8 input, output order `[boxes, classes, scores]`, person =
 class 0. See `models/README.md` for the full tensor layout and an alternative
 model.
 
-## Watching the camera live in a browser
+## Watching the Camera Live in a Browser
 
 No display needed on the board -- stream to any browser on the same network:
 
@@ -369,7 +369,7 @@ Then open `http://<board-hostname>.local:8080/` from your laptop. Frame rate
 and JPEG quality are capped (`--fps`, `--quality`) so the stream does not
 compete with the detector for CPU/bandwidth. Ctrl-C on the board to stop.
 
-## Camera pan servo (search + track)
+## Camera Pan Servo (search + track)
 
 The C920 is mounted on an HS-225MG pan servo: it sweeps until it finds an
 enrolled pursuer, then tracks them while the chassis drives away. Bearing
@@ -382,7 +382,7 @@ python3 -m scripts.track_test --camera 0   # sweep + track, wheels disabled
 python3 -m app.main --no-drive             # full loop, wheels disabled
 ```
 
-## Testing the vision stack
+## Testing the Vision Stack
 
 ```
 python -m scripts.vision_preview --inspect              # check a new model file
@@ -402,7 +402,7 @@ detections look wrong, that is the first thing to check, since
 `detector._read_outputs()` assumes the order `[boxes, classes, scores]` and it
 varies between models.
 
-## Evaluating a run
+## Evaluating a Run
 
 ```
 python -m scripts.analyze_runs data/runs/*.csv            # time-to-capture
