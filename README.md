@@ -114,6 +114,14 @@ https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
 
 <img width="616" height="360" alt="CAD" src="https://github.com/user-attachments/assets/d63ca254-d545-4f17-8f04-c8d06e7e36b1" />
 
+The top deck plate is a heavily modified version of the original provided by the kit. The servo mounting hole has been moved back as much as possible to allow for the Lidar, which still hangs over the edge. 3 pairs of holes are made for the now central battery box position under the raised plate for the Arduino Uno Q. 4 18 mm diameter holes were also created to route cables from the bottom plate to the top.
+
+
+Plans have been made to use 3D printed female to female standoffs to raise the plate, using alternating sets of holes in the stackplate to infinitely stack upwards as needed. However, standard female to male M3 standoffs were found that could already be stacked without altering hole layouts. This allowed for the possibility of a second servo mounted or fixed camera on top of the Arduino plate. 
+
+
+**In future developments with access to printers possessing >250mm of printing length or width, the entire deckplate can be extended ~30-40mm to give more room for the camera to turn and bring the USB hub between the Lidar and Arduino plate.** Servos can be installed at the deck level to reduce height profile, and a second camera at deck level could be possible with an additional ~50 mm. Replacing the standoffs between the top and bottom deck for taller ones can allow the top deck to overhang the wheels, giving more width to secure wiring or larger batteries. **Using an 1/18 or an 1/10 scale RC car similar to ECE148 could give the necessary space and power to realize these goals.**
+
 
 ### Hardware List
 - **Arduino UNO Q** — dual processor:
@@ -173,6 +181,7 @@ Two processors, two very different jobs:
                  └──────────────────────────────────────────────────────────────────────────┘
 ```
 
+A ultrasonic sensor that came with the kit and was part of the ESP32 camera mount was considered for emergency stops when an object was detected too close, as it ran off of the STM32 and potentially could react faster. However, when we switched to using solely an C920 webcam with lidar, the ultrasonic sensor became an unneeded redundancy.
 
 ---
 
