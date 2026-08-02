@@ -11,6 +11,12 @@
 
 ---
 
+<p>
+ <img width="2048" height="1537" alt="finalmousebot" src="https://github.com/user-attachments/assets/dce4e1ac-c8eb-4efa-b6f7-85e6b185fb4d" /> 
+</p>
+
+---
+
 ## Table of Contents
 1. [Abstract](#abstract)
 2. [Team Members](#team-members)
@@ -64,7 +70,11 @@ An autonomous robot car that uses on-device vision to detect and track a pursuin
 ---
 
 ## Project Demonstration
+The lidar was later found to be set to only 60 deg on each side. Setting it to 90 deg on each side will help eliminate blindspots while approaching obstacles in the future
 
+https://github.com/user-attachments/assets/69da7641-b7ed-4182-bcb2-6be922de7190
+
+https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
 
 ---
 
@@ -91,9 +101,15 @@ An autonomous robot car that uses on-device vision to detect and track a pursuin
 - More rigid mounting solution for camera on servo
 - IMU feedback for movement
 
+<img width="1413" height="1252" alt="Future" src="https://github.com/user-attachments/assets/b5826f9d-8019-4ed9-a230-a60a743e3cea" />
+
 ---
 
 ## Hardware and CAD
+
+
+<img width="2345" height="1726" alt="mousebotsidelabel" src="https://github.com/user-attachments/assets/891a20cd-d9c0-4343-b313-e4330778546e" />
+
 
 
 ### Hardware List
@@ -123,6 +139,19 @@ Each unit's body, the central clutter, and the *other* LiDAR appear as fixed pha
 ---
 
 ## Computer Vision and Software
+
+## Computer Vision Demo
+
+https://github.com/user-attachments/assets/76992d57-054b-4c80-b433-088bdea6a52e
+
+## Camera Feed and Lidar Map
+The camera scans until it sees a person. If the person is recognized based on the onboard profile of the pursuer, it will start tracking it. If it is over 95% certain it is the pursuer, it will lock onto that person and ignore any other person for a set period of time 
+
+<img width="639" height="479" alt="camdetection" src="https://github.com/user-attachments/assets/f6f76212-4c50-42d6-837b-07fd4e3da633" />
+
+The Lidar map is divided into two hemispheres: the lidar in the back (next to the camera) plots detections in the lower hemisphere (bottom half) of the graph, while the front plots in the upper hemisphere. The red X is the estimated psoition of the pursuer.
+<img width="674" height="756" alt="lidarscreen" src="https://github.com/user-attachments/assets/c82f1d95-0065-4e2a-bc2e-756165e31ab4" />
+
 
 ## Architecture
 
