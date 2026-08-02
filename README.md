@@ -28,9 +28,10 @@
 7. [Future Development](#future-development)
 8. [Project Hardware](#hardware-and-cad)
 9. [Project Software](#computer-vision-and-software)
-10. [References](#references)
-11. [Acknowledgments](#acknowledgments)
-12. [Contacts](#contacts)
+10. [Final project Presentation](final-project-presentation)
+11. [References](#references)
+12. [Acknowledgments](#acknowledgments)
+13. [Contacts](#contacts)
 ---
 
 ## Abstract
@@ -295,6 +296,7 @@ mouse-bot/
     ├── slides.pdf
     ├── slides.tex
     └── UCSDLogo_JSOE_BlueGold_0_0.png
+```
 
 ---
 
@@ -413,6 +415,10 @@ python -m pytest tests/ -q
 54 unit tests over the pure logic (geometry, evasion policy, LiDAR sectorizing,
 identity gate, run analysis). No hardware, camera, or model file required, so
 they run on any laptop. See `tests/README.md`.
+
+---
+
+## [Final Project Presentation](https://docs.google.com/presentation/d/1U6K6tgcmcW5ZD5GqswljRYP57PqoK4Ar_VmlcLOLLok/edit?usp=sharing)
 
 ---
 
