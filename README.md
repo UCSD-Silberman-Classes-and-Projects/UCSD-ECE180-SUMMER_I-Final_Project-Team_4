@@ -34,14 +34,14 @@
 ---
 
 ## Abstract
-An autonomous robot car that uses on-device vision to detect and track a pursuing person as it drives away to avoid being caught while attemping to navigate around obstacles in its path. Using dual 2D LiDAR in front and back for corner detection and obstacle avoidance with a rotating webcam for person tracking, the mousebot manuvers to keep the person in the camera frame while threading between other people, chairs, and under tables. All perception and decision-making run on-device on an Arduino UNO Q.
+An autonomous robot car that uses on-device vision to detect and track a pursuing person as it drives away to avoid being caught while attempting to navigate around obstacles in its path. Using dual 2D LiDAR in front and back for corner detection and obstacle avoidance with a rotating webcam for person tracking, the mousebot maneuvers to keep the person in the camera frame while threading between other people, chairs, and under tables. All perception and decision-making run on-device on an Arduino UNO Q.
 
 ---
 
 ## Team Members
-- Ryan Chen - ELectrical and Computer Engineering
+- Ryan Chen - Electrical and Computer Engineering
 - Charlie Kushelevsky - Mathmatics-Computer Science
-- Jaafar Sameer - ELectrical and Computer Engineering
+- Jaafar Sameer - Electrical and Computer Engineering
 
 ---
 
@@ -50,7 +50,7 @@ An autonomous robot car that uses on-device vision to detect and track a pursuin
 - Person recognition and tracking of specific people to escape from
 - Estimation of proximity and bearing of person (direction of approach)
 - Reactive escape steering away from person 
-- obstacle avoidance of objects within its path
+- Obstacle avoidance of objects within its path
 
 ### Nice to Have
 - Continuous Camera tracking via servo
@@ -61,8 +61,8 @@ An autonomous robot car that uses on-device vision to detect and track a pursuin
 ---
 
 ## Accomplishments
-- Sucessfully built base chassis with custom 3D printed top plate to mount all sensors and equipment
-- Smooth person tracking with camera mounted servo
+- Successfully built base chassis with custom 3D-printed top plate to mount all sensors and equipment
+- Smooth person tracking with camera-mounted servo
 - Identification of specific people via personal profiles
 - Object avoidance with lidar mapping
 - Integration of camera with lidars to command chassis movement
@@ -80,22 +80,22 @@ https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
 ---
 
 ## Challenges
-- Insufficient ports for camera and 2 lidars, had to add USB hub
-- Arduino Uno Q USB C port only takes input power and data, could not output power through board
-- Connectivity issues through USB hub to Arduino Uno Q's C port, required "jumping" the system by connecting the hub's USB C to a phone to draw power and data, then replugging into Arduino Uno Q
+- Insufficient ports for camera and 2 lidars; had to add a USB hub
+- Arduino Uno Q USB-C port only takes input power and data; could not output power through the board
+- Connectivity issues through USB hub to Arduino Uno Q's C port, required "jumping" the system by connecting the hub's USB-C to a phone to draw power and data, then replugging into Arduino Uno Q
 - Insufficient power for all sensors, required portable battery bank to power externals
-- Camera only mounts via single M6 screw, require multiple redesigns to mount onto servo
+- Camera only mounts via a single M6 screw; required multiple redesigns to mount onto servo
 - Had to reverse direction of car so camera can track pursuer chasing behind 
-- Space limitation of deck, overhang lidar over edge of plate, stacked battery box and Arduino vertically, raised servo mount for clerance of rotating camera
-- Power difference between motors - had to adjust throttle settigns for each side to synchronize power and movement
-- Lidars required masking the rear 180 deg to avoid detecting wires and equipment on the top plate, and wires had to be routed carefully from the usb hub in front of the lidar
-- Used Tailscale to facillitate more reliable connection to Arduino Uno Q on campus
+- Space limitation of deck, overhang lidar over edge of plate, stacked battery box and Arduino vertically, raised servo mount for clearance of rotating camera
+- Power difference between motors - had to adjust throttle settings for each side to synchronize power and movement
+- Lidars required masking the rear 180 deg to avoid detecting wires and equipment on the top plate, and wires had to be routed carefully from the USB hub in front of the lidar
+- Used Tailscale to facilitate a more reliable connection to Arduino Uno Q on campus
 
 ---
 
 ## Future Development
 - Additional ESP32 camera/C920 webcam for 360 deg vision coverage
-- Multi person designation and evasion
+- Multi-person designation and evasion
 - Reinforcement Learning model to experiment with evasion tactics
 - SLAM and object recognition for more successful evasion
 - Larger chassis deck, larger/more powerful battery, stronger motors with encoders
@@ -117,7 +117,7 @@ https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
 ### Hardware List
 - **Arduino UNO Q** — dual processor:
   - **Qualcomm MPU (Debian Linux)** — camera capture, person detection, LiDAR processing, evasion policy
-  - **STM32U585 (Zephyr RTOS)** — motor PWM, ultrasonic safety reflex, executes motion commands
+  - **STM32U585 (Zephyr RTOS)** — motor PWM, executes motion commands
 - **ELEGOO Smart Robot Car V4.0** chassis (TB6612 motor driver, TT DC motors)
 - **Camera** — either a USB webcam (a C920 Logitech webcam was used) plugged directly into the MPU (V4L2), or
   the kit's stock **ESP32-WROVER camera module**: its own microcontroller,
@@ -126,7 +126,7 @@ https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
   header for command relay, never for video (see `docs/architecture.md`).
   Selected via `config.CAMERA_SOURCE` / `--camera`.
 - **2× LDRobot LD19** 2D LiDAR — one front, one rear (see LiDAR note below)
-- **Ultrasonic sensor** (from kit) — retained purely as an STM32-side emergency-stop backstop
+
 
 ### Why two LiDARs
 
@@ -168,13 +168,10 @@ Two processors, two very different jobs:
                                                                                               │ motion cmd (RPC)
                  ┌─────────────────────── STM32 (Zephyr) ──────────────────────────────────┐ │
                  │ set_motion(left_pwm, right_pwm) ◀───────────────────────────────────────┼─┘
-                 │ ultrasonic safety reflex: if range < STOP → halt motors locally         │
+                 │         │
                  └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-Key principle: the STM32 holds a **local safety reflex** (halt if the ultrasonic reads too close)
-that does not wait on the MPU. A slow vision frame can never cause a head-on collision.
-The LiDAR does all the *smart* spatial reasoning on the MPU; the ultrasonic is a dumb, fast backstop.
 
 ---
 
@@ -203,7 +200,7 @@ mouse-bot/
 ├── .gitignore
 │
 ├── sketch/
-│   └── sketch.ino              # STM32: motors, ultrasonic reflex, Bridge RPC
+│   └── sketch.ino              # STM32: motors, Bridge RPC
 │
 ├── app/                        # MPU (Python)
 │   ├── main.py                 # top-level loop
@@ -276,39 +273,6 @@ LiDAR-based corner detection + avoidance · time-to-capture metric.
 **Nice to haves:** learned evasion policy (RL in sim → transfer) · multi-pursuer / target
 re-ID · live FPV / detection overlay stream.
 
-## Bluetooth command console
-
-`app/control/bt_console.py` runs a small RFCOMM (Bluetooth serial) server on
-the MPU as a wireless remote for the robot, separate from the `app.main`
-evasion loop itself:
-
-```
-python -m app.control.bt_console --front-port /dev/ttyUSB0 --rear-port /dev/ttyUSB1
-```
-
-Pair the board once via `bluetoothctl` (`power on`, `discoverable on`,
-`pairable on`, `agent on`, then pair from your phone/laptop). From a phone,
-any Bluetooth serial-terminal app connecting on RFCOMM channel 1 works. From
-a Linux PC, use `scripts/bt_client.py` rather than the `rfcomm` CLI tool —
-`rfcomm`/`hcitool`/`sdptool` are legacy `bluez-utils` tools deprecated
-upstream and missing on plenty of distros:
-
-```
-python -m scripts.bt_client 14:B5:CD:EA:BB:09
-```
-
-Either way, send one command per line:
-
-- `start` — launch `app.main.run` in a background thread
-- `stop` — signal it to stop and join (the loop's own `finally` block halts
-  the motors via `bridge.stop()`)
-- `usb` — `lsusb` output plus any `/dev/ttyUSB*`/`/dev/ttyACM*` ports found,
-  handy for confirming which port is the front vs. rear LD19
-
-It uses the standard library's `socket.AF_BLUETOOTH`/`BTPROTO_RFCOMM`
-directly (Linux-only, needs BlueZ installed — `sudo apt install bluetooth
-bluez`), so no extra Python package is required. `--stub` makes `start` run
-the evasion loop hardware-free, same as `app.main --stub`.
 
 ## Getting the detection model
 
