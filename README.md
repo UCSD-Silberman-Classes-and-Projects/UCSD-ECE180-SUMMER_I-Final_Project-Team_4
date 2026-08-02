@@ -1,8 +1,9 @@
 <div align="center">
   
-# Mousebot: Autonomous Person Tracking and Obstacle Avoidance Evasion Robot
+# Mousebot 
+# Autonomous Person Tracking and Obstacle Avoidance Evasion Robot
 
-<img width="800" height="200" alt="image" src="https://github.com/user-attachments/assets/b066e3b0-ca6e-486a-8b3d-a0fa0c022a4e" />
+<img width="1000" height="200" alt="image" src="https://github.com/user-attachments/assets/b066e3b0-ca6e-486a-8b3d-a0fa0c022a4e" />
 
 ### Team 4
 ### ECE 180 Final Project Summer Session 1 2026
@@ -405,7 +406,7 @@ Special thank you to Professor Silberman and TA Jose Castillo for advice, insigh
 ---
 
 ## Contacts
-- Ryan Chen -
+- Ryan Chen - ryc004@ucsd.edu
 - Charlie Kushelevsky - 
 - Jaafar Sameer - 
 
