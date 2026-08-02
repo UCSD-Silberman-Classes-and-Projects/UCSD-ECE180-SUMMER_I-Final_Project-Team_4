@@ -408,6 +408,6 @@ Special thank you to Professor Silberman and TA Jose Castillo for advice, insigh
 ## Contacts
 - Ryan Chen - ryc004@ucsd.edu
 - Charlie Kushelevsky - 
-- Jaafar Sameer - 
+- Jaafar Sameer - jsameer@ucsd.edu
 
 
