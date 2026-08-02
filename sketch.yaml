@@ -1,0 +1,20 @@
+# arduino-app-cli build manifest for the Evasion Bot.
+# The STM32 sketch lives in sketch/sketch.ino; the MPU Python app lives in app/.
+# Verify field names and structure against your arduino-app-cli version.
+
+name: mouse-bot
+
+# STM32 / Zephyr side
+sketch:
+  path: sketch/sketch.ino
+  libraries:
+    - Arduino_RouterBridge   # confirmed name; see docs/architecture.md
+    - Servo                  # camera pan servo (HS-225MG), sketch/src/servo_cam.cpp
+
+# MPU / Debian side
+app:
+  entrypoint: app/main.py
+  # System packages (install via apt, NOT pip, on ARM/Debian):
+  #   sudo apt install python3-opencv
+  # Python packages:
+  #   pip install numpy pyserial ai-edge-litert lds2d

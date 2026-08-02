@@ -1,0 +1,174 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{pgfgantt}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usetikzlibrary{calc}
+
+% ---- UCSD palette ----
+\definecolor{ucsdblue}{RGB}{24,43,73}
+\definecolor{ucsdgold}{RGB}{255,205,0}
+\definecolor{lightgray}{RGB}{240,240,240}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{frametitle}{fg=ucsdblue}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamercolor{itemize item}{fg=ucsdblue}
+\setbeamercolor{itemize subitem}{fg=ucsdgold}
+\setbeamerfont{frametitle}{size=\Large}
+
+
+\newcommand{\teamnum}{Team \#4}
+\newcommand{\coursetag}{ECE 180}
+
+\newcommand{\logobox}{%
+  \IfFileExists{UCSDLogo_JSOE_BlueGold_0_0.png}{%
+    \includegraphics[height=0.9cm]{UCSDLogo_JSOE_BlueGold_0_0.png}%
+  }{%
+    \fbox{\parbox[c][0.8cm][c]{3.8cm}{\centering\tiny UCSD $\vert$ JSOE logo\\ \texttt{UCSDLogo\_JSOE\_BlueGold\_0\_0.png}}}%
+  }%
+}
+
+% ---- Footer + logo on every slide ----
+\setbeamertemplate{footline}{%
+  \hbox{%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.6ex,dp=1.2ex,leftskip=1em,rightskip=1em]{}%
+      \color{ucsdblue}\footnotesize
+      UC San Diego \,$\vert$\, JSOE \,$\vert$\, \coursetag \,$\vert$\, \teamnum
+      \hfill \insertframenumber/\inserttotalframenumber
+    \end{beamercolorbox}%
+  }%
+    \vspace{1.5ex}%
+}
+
+% place logo top-right on content frames
+\newcommand{\framelogo}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north east,inner sep=6pt] at (current page.north east){\logobox};
+  \end{tikzpicture}%
+}
+
+\begin{document}
+
+% ============ SLIDE 1: COVER ============
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north east,inner sep=10pt] at (current page.north east){\logobox};
+  \end{tikzpicture}
+
+  \vspace{1.4cm}
+  \begin{center}
+    {\color{ucsdblue}\Huge\bfseries MouseBot: Edge AI Evasion Robot}\\[4pt]
+    {\color{ucsdblue}\large A vision-guided robot car that flees a pursuing person}\\[2pt]
+    {\normalsize Arduino UNO Q \;$\cdot$\; \coursetag \;$\cdot$\; Final Project Proposal}
+
+    \vspace{0.7cm}
+    {\color{ucsdgold}\rule{0.6\textwidth}{2pt}}
+    \vspace{0.7cm}
+
+    {\Large\bfseries \teamnum}\\[10pt]
+    \begin{tabular}{ll}
+      \textbf{Charlie Kushelevsky} & Math \(+\) Electrical \& Computer Engineering\\[3pt]
+      \textbf{Jaafar Sameer}       & Electrical \& Computer Engineering\\[3pt]
+      \textbf{Ryan Chen}           & Electrical \& Computer Engineering\\
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+% ============ SLIDE 2: WHAT ============
+\begin{frame}{What We Are Proposing}
+  \framelogo
+  \small
+  
+  An autonomous robot car (ELEGOO chassis, re-controlled by the Arduino UNO Q) that uses its
+  camera to detect a pursuing person and \textbf{drive away to avoid being caught} --- while
+  steering clear of walls and obstacles. All perception and decision-making run on-device, no cloud.
+
+  \vspace{4pt}
+  \textbf{\color{ucsdblue}Where the AI/ML runs (on the AUQ):}
+  \begin{itemize}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+     h
+    \item A TFLite person-detection CNN executes \textbf{on the UNO Q Ubuntu MPU}, producing the
+          pursuer's \emph{bearing} and \emph{proximity} from each camera frame.
+    \item An on-device evasion policy converts detections (fused with an ultrasonic range sensor)
+          into escape headings, sent to the STM32 for real-time motor control.
+  \end{itemize}
+
+  \vspace{0pt}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{\color{ucsdblue}Must haves}
+      \begin{itemize}[itemsep=0pt,parsep=0pt,topsep=2pt]\small
+        \item On-device person detection on the MPU
+        \item Bearing + proximity estimation
+        \item Reactive escape steering (flee the pursuer)
+        \item Ultrasonic wall/obstacle avoidance on STM32
+        \item Measurable ``time-to-capture'' metric
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{\color{ucsdblue}Nice to haves}
+      \begin{itemize}[itemsep=0pt,parsep=0pt,topsep=2pt]\small
+        \item Corner-aware evasion (avoid self-trapping)
+        \item Learned evasion policy (RL in sim $\rightarrow$ transfer)
+        \item Multi-pursuer / target re-identification
+        \item Live FPV / detection overlay stream
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ============ SLIDE 3: GANTT ============
+\begin{frame}{Project Plan --- Gantt Chart (Week 2 $\rightarrow$ Week 5)}
+  \framelogo
+  \vspace{2pt}
+  \begin{center}
+  \resizebox{0.98\textwidth}{!}{%
+  \begin{ganttchart}[
+      hgrid, vgrid,
+      x unit=0.85cm,
+      y unit chart=0.68cm,
+      y unit title=0.75cm,
+      title/.append style={fill=ucsdblue},
+      title label font=\color{white}\bfseries\normalsize,
+      bar/.append style={fill=ucsdgold,draw=ucsdblue},
+      bar label font=\small,
+      group/.append style={fill=ucsdblue,draw=ucsdblue},
+      group label font=\bfseries\small\color{ucsdblue},
+      group left shift=0, group right shift=0,
+      bar top shift=0.15, bar height=0.6,
+      milestone/.append style={fill=ucsdblue}
+    ]{1}{16}
+    % week header (4 weeks x 4 columns)
+    \gantttitle{Week 2}{4}
+    \gantttitle{Week 3}{4}
+    \gantttitle{Week 4}{4}
+    \gantttitle{Week 5}{4} \\
+
+    % ---- Task 1 ----
+    \ganttgroup{1. Platform \& Perception}{1}{7} \\
+    \ganttbar{Board bring-up + chassis pin mapping}{1}{3} \\
+    \ganttbar{USB camera capture on MPU}{2}{4} \\
+    \ganttbar{Person-detection CNN (TFLite, on-device)}{3}{7} \\
+
+    % ---- Task 2 ----
+    \ganttgroup{2. Control \& Evasion}{4}{12} \\
+    \ganttbar{Motor + ultrasonic loop on STM32}{4}{6} \\
+    \ganttbar{Bearing/proximity + escape policy}{6}{10} \\
+    \ganttbar{Obstacle-aware evasion tuning}{9}{12} \\
+
+    % ---- Task 3 ----
+    \ganttgroup{3. Integration \& Delivery}{10}{16} \\
+    \ganttbar{End-to-end MPU$\leftrightarrow$STM32 integration}{10}{13} \\
+    \ganttbar{Time-to-capture testing + tuning}{12}{15} \\
+    \ganttbar{Documentation + final demo}{10}{16} \\
+
+    \ganttmilestone{Due}{16}
+  \end{ganttchart}%
+  }
+  \end{center}
+  \vspace{-2pt}
+\end{frame}
+
+\end{document}
