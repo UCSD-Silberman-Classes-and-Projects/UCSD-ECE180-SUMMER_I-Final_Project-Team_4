@@ -101,15 +101,16 @@ https://github.com/user-attachments/assets/35d9001b-ba4c-442b-992d-67fd3eab1270
 - More rigid mounting solution for camera on servo
 - IMU feedback for movement
 
-<img width="1413" height="1252" alt="Future" src="https://github.com/user-attachments/assets/b5826f9d-8019-4ed9-a230-a60a743e3cea" />
+<img width="353" height="313" alt="Future" src="https://github.com/user-attachments/assets/b5826f9d-8019-4ed9-a230-a60a743e3cea" />
 
 ---
 
 ## Hardware and CAD
+<img width="800" height="570" alt="mousebotsidelabel" src="https://github.com/user-attachments/assets/891a20cd-d9c0-4343-b313-e4330778546e" />
 
+### CAD:
 
-<img width="2345" height="1726" alt="mousebotsidelabel" src="https://github.com/user-attachments/assets/891a20cd-d9c0-4343-b313-e4330778546e" />
-
+<img width="616" height="360" alt="CAD" src="https://github.com/user-attachments/assets/d63ca254-d545-4f17-8f04-c8d06e7e36b1" />
 
 
 ### Hardware List
